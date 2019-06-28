@@ -1,5 +1,7 @@
 # !/usr/bin/python
 # -*- coding: utf-8 -*-
+# user KMeans to procress RGB matrix of an image to 100 clusters
+# and then rebuild the image with the cluster centers
 
 from PIL import Image
 import numpy as np
@@ -53,7 +55,7 @@ if __name__ == '__main__':
     matplotlib.rcParams['axes.unicode_minus'] = False
 
     num_vq = 50
-    im = Image.open('..\\lena.png')     # son.bmp(100)/flower2.png(200)/son.png(60)/lena.png(50)
+    im = Image.open('../image/Lena.png')     # son.bmp(100)/flower2.png(200)/son.png(60)/lena.png(50)
     image = np.array(im).astype(np.float) / 255
     image = image[:, :, :3]
     image_v = image.reshape((-1, 3))
