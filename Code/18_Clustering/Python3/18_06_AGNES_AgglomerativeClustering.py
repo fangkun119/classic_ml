@@ -18,19 +18,26 @@ if __name__ == '__main__':
     warnings.filterwarnings(action='ignore', category=UserWarning)
     np.set_printoptions(suppress=True)
     np.random.seed(0)
+    # 400个样本，准备聚成4类
     n_clusters = 4
-    N = 400
-    data1, y1 = ds.make_blobs(n_samples=N, n_features=2, centers=((-1, 1), (1, 1), (1, -1), (-1, -1)),
-                              cluster_std=(0.1, 0.2, 0.3, 0.4), random_state=0)
-    data1 = np.array(data1)
+    N          = 400
+    # 构造4个数据集，用这4个数据集分别测试聚类效果
+    data1, y1 = ds.make_blobs(
+                        n_samples=N, 
+                        n_features=2, 
+                        centers=((-1, 1), (1, 1), (1, -1), (-1, -1)),
+                        cluster_std=(0.1, 0.2, 0.3, 0.4), r
+                        andom_state=0
+                )
+    data1   = np.array(data1)
     n_noise = int(0.1*N)
-    r = np.random.rand(n_noise, 2)
+    r       = np.random.rand(n_noise, 2)
     data_min1, data_min2 = np.min(data1, axis=0)
     data_max1, data_max2 = np.max(data1, axis=0)
     r[:, 0] = r[:, 0] * (data_max1-data_min1) + data_min1
     r[:, 1] = r[:, 1] * (data_max2-data_min2) + data_min2
     data1_noise = np.concatenate((data1, r), axis=0)
-    y1_noise = np.concatenate((y1, [4]*n_noise))
+    y1_noise    = np.concatenate((y1, [4]*n_noise))
 
     data2, y2 = ds.make_moons(n_samples=N, noise=.05)
     data2 = np.array(data2)
