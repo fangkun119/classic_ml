@@ -22,14 +22,17 @@ if __name__ == '__main__':
     n_clusters = 4
     N          = 400
     # 构造4个数据集，用这4个数据集分别测试聚类效果
+    # 数据集1：用makeblobs构造的数据集
+    # sklearn.datasets.make_blobs: generate isotropic (各向同性) Gaussian blobs for clustering
     data1, y1 = ds.make_blobs(
-                        n_samples=N, 
-                        n_features=2, 
-                        centers=((-1, 1), (1, 1), (1, -1), (-1, -1)),
-                        cluster_std=(0.1, 0.2, 0.3, 0.4), r
-                        andom_state=0
+                        n_samples   = N, # 样本数 
+                        n_features  = 2, # 特征数
+                        centers     = ((-1, 1), (1, 1), (1, -1), (-1, -1)), # 4个cluster中心点的特征值
+                        cluster_std = (0.1, 0.2, 0.3, 0.4), # 4个cluster的方差
+                        random_state = 0 # random seed
                 )
     data1   = np.array(data1)
+    # 
     n_noise = int(0.1*N)
     r       = np.random.rand(n_noise, 2)
     data_min1, data_min2 = np.min(data1, axis=0)
