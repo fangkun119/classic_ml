@@ -27,11 +27,11 @@ if __name__ == '__main__':
     # 数据集1-A：用makeblobs构造的数据集
     # sklearn.datasets.make_blobs: generate isotropic (各向同性) Gaussian blobs for clustering
     data1, y1 = ds.make_blobs(
-                        n_samples   = N, # 样本数 
-                        n_features  = 2, # 特征数
+                        n_samples   = N,  # 样本数 
+                        n_features  = 2,  # 特征数
                         centers     = ((-1, 1), (1, 1), (1, -1), (-1, -1)), # 4个cluster中心点的特征值
                         cluster_std = (0.1, 0.2, 0.3, 0.4), # 4个cluster的方差
-                        random_state = 0 # random seed
+                        random_state = 0  # random seed
                 )
     data1   = np.array(data1)
     
@@ -92,11 +92,12 @@ if __name__ == '__main__':
         # 用knn生成connectivity矩阵
         connectivity = kneighbors_graph(
                                 data,               # data set
-                                n_neighbors=7,      # 
-                                mode='distance', 
-                                metric='minkowski', 
-                                p=2, 
-                                include_self=True
+                                n_neighbors=7,      # number of neighbors for each sample
+                                mode='distance',    # return type：{‘connectivity’ , ‘distance’}, default=’connectivity’， connectivity matrix with ones and zeros or distances
+                                metric='minkowski', # distance metric, default distance is ‘euclidean’ (‘minkowski’ metric with the p param equal to 2.
+                                p=2,                # when p = 1, this is equivalent to using manhattan_distance (l1), and euclidean_distance (l2) for p = 2. For arbitrary p, minkowski_distance (l_p) is used.
+                                include_self=True   # whether or not to mark each sample as the first nearest neighbor to itself
+                                # ,n_jobsint, default=None  # parallel number of threads
                                 )
         connectivity = 0.5 * (connectivity + connectivity.T)
         # 依次尝试4种策略，未当前数据集生成4个不同的聚类结果
