@@ -90,15 +90,35 @@ if __name__ == '__main__':
         plt.xlim(extend(data_min1, data_max1))
         plt.ylim(extend(data_min2, data_max2))
         # 用knn生成connectivity矩阵
-        connectivity = kneighbors_graph(data, n_neighbors=7, mode='distance', metric='minkowski', p=2, include_self=True)
+        connectivity = kneighbors_graph(
+                                data,               # data set
+                                n_neighbors=7,      # 
+                                mode='distance', 
+                                metric='minkowski', 
+                                p=2, 
+                                include_self=True
+                                )
         connectivity = 0.5 * (connectivity + connectivity.T)
         # 依次尝试4种策略，未当前数据集生成4个不同的聚类结果
+        # affinity:  “euclidean”, “l1”, “l2”, “manhattan”, “cosine”, or “precomputed”
+        #   * if linkage is “ward”, only “euclidean” is accepted
+        #   * if “precomputed”, a distance matrix (instead of a similarity matrix) is needed as input for the fit method
+        # compute full tree: 
+        #   * it must be True if distance_threshold is not None. 
+        #   * by default is “auto”, which is 
+        #     * equivalent to True when distance_threshold is not None 
+        #     * or that n_clusters is inferior to the maximum between 100 or 0.02 * n_samples
+        #     * otherwise, “auto” is equivalent to False
+        # distance_threshold, default=None
+        #     * the linkage distance threshold above which, clusters will not be merged. 
+        #     * if not None, n_clusters must be None and compute_full_tree must be True.
         for i, linkage in enumerate(linkages):
             ac = AgglomerativeClustering(
-                            n_clusters=n_clusters, 
-                            affinity='euclidean',
-                            connectivity=connectivity, 
-                            linkage=linkage
+                            n_clusters   = n_clusters,   # cluster数目
+                            affinity     = 'euclidean',  # 样本距离度量方法
+                            connectivity = connectivity, # a connectivity matrix, such as derived from kneighbors_graph, default is None
+                            linkage=linkage              # linkage criterion: {“ward”, “complete”, “average”, “single”}, default=”ward”
+                            #, compute_full_tree         # default=’auto’, must be True if distance_threshold is not None.
                             )
             ac.fit(data)
             # 聚类结果
