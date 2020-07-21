@@ -68,12 +68,22 @@ if __name__ == '__main__':
     cm = mpl.colors.ListedColormap(['r', 'g', 'b', 'm', 'c'])
     plt.figure(figsize=(10, 8), facecolor='w')
     plt.cla()
-    
+
+    # https://cloud.tencent.com/developer/article/1020155
+    # http://sklearn123.com/FourthSection/2.3.Clustering/
+    # https://www.studyai.cn/modules/clustering.html#hierarchical-clustering
     # AgglomerativeClustering 使用自下而上的方法进行层次聚类:开始是每一个对象是一个聚类， 并且聚类别相继合并在一起。 linkage criteria 确定用于合并的策略的度量:
 	# • Ward 最小化所有聚类内的平方差总和。这是一种 variance-minimizing （方差最小化）的优化方向， 这是与k-means 的目标函数相似的优化方法，但是用 agglomerative hierarchical（聚类分层）的方法处理。
 	# • Maximum 或 complete linkage 最小化聚类对两个样本之间的最大距离。
 	# • Average linkage 最小化聚类两个聚类中样本距离的平均值。
     # AgglomerativeClustering 在于连接矩阵联合使用时，也可以扩大到大量的样本，但是 在样本之间没有添加连接约束时，计算代价很大:每一个步骤都要考虑所有可能的合并。
+    # Agglomerative cluster 存在 “rich get richer” 现象导致聚类大小不均匀
+    #   这方面 complete linkage 是最坏的策略
+    #   ward 给出了最规则的大小。然而，在 Ward 中 affinity (or distance used in clustering) 不能被改变
+    #   对于 non Euclidean metrics 来说 average linkage 是一个好的选择
+    
+
+
     
     # 4种聚类策略: {“ward”, “complete”, “average”, “single”}, default=”ward”
     # `ward`: minimizes the variance of the clusters being merged.
